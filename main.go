@@ -9,6 +9,7 @@ import (
 	"io"
 	"net"
 	"os"
+	"unicode"
 
 	"github.com/jroimartin/gocui"
 	"gitlab.com/tblyler/ep2pchat/client"
@@ -128,7 +129,27 @@ func main() {
 
 			return nil
 		})
-		gui.SetKeybinding("", gocui.KeyCtrlL, gocui.ModNone, func(g *gocui.Gui, v *gocui.View) error {
+		gui.SetKeybinding("input", gocui.KeyCtrlW, gocui.ModNone, func(g *gocui.Gui, v *gocui.View) error {
+			buffer := v.Buffer()
+			foundFirstSpace := false
+			foundFirstChar := false
+			for i := len(buffer) - 1; i >= 0; i-- {
+				if unicode.IsSpace(rune(buffer[i])) {
+					if foundFirstSpace && foundFirstChar {
+						break
+					}
+
+					foundFirstSpace = true
+				} else {
+					foundFirstChar = true
+				}
+
+				v.EditDelete(true)
+			}
+
+			return nil
+		})
+		gui.SetKeybinding("input", gocui.KeyCtrlL, gocui.ModNone, func(g *gocui.Gui, v *gocui.View) error {
 			chat, err := g.View("chat")
 			if err != nil {
 				return nil
