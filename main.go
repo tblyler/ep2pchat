@@ -128,8 +128,24 @@ func main() {
 
 			return nil
 		})
+		gui.SetKeybinding("", gocui.KeyCtrlL, gocui.ModNone, func(g *gocui.Gui, v *gocui.View) error {
+			chat, err := g.View("chat")
+			if err != nil {
+				return nil
+			}
+
+			chat.SetCursor(0, 0)
+			chat.Clear()
+
+			return nil
+		})
 		gui.SetKeybinding("", gocui.KeyCtrlC, gocui.ModNone, func(g *gocui.Gui, v *gocui.View) error {
 			return gocui.ErrQuit
+		})
+		gui.SetKeybinding("input", gocui.KeyCtrlU, gocui.ModNone, func(g *gocui.Gui, v *gocui.View) error {
+			v.SetCursor(0, 0)
+			v.Clear()
+			return nil
 		})
 		gui.SetKeybinding("input", gocui.KeyEnter, gocui.ModNone, func(g *gocui.Gui, v *gocui.View) error {
 			msg := v.ViewBuffer()
