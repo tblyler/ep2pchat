@@ -108,8 +108,8 @@ func main() {
 					return err
 				}
 
-				v.Editable = true
 				v.Wrap = true
+				v.Autoscroll = true
 			}
 			v, err = gui.SetView("input", 1, maxY-4, maxX-1, maxY-1)
 			if err != nil {
@@ -123,6 +123,7 @@ func main() {
 
 				v.Editable = true
 				v.Wrap = true
+				v.Autoscroll = true
 			}
 
 			return nil
